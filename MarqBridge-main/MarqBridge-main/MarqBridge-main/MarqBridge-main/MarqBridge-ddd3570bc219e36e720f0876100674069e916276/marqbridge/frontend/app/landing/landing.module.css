@@ -1,0 +1,604 @@
+/* Landing Page Styles */
+
+.container {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #e8e8e8;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 0.5px solid transparent;
+  transition: all 0.2s;
+}
+
+.nav.scrolled {
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom-color: #1a1a1a;
+}
+
+.navContent {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.navLink {
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.navLink:hover {
+  color: #aaa;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  padding: 8px 12px;
+  transition: color 0.15s;
+}
+
+.navButton:hover {
+  color: #aaa;
+}
+
+.navDemoButton {
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 0.5px solid rgba(224, 184, 74, 0.4);
+  background: rgba(224, 184, 74, 0.08);
+  color: #e0b84a;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.navDemoButton:hover {
+  background: rgba(224, 184, 74, 0.15);
+}
+
+/* Hero Section */
+.hero {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 96px 24px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.heroContent h1 {
+  font-size: 52px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  color: #ffffff;
+}
+
+.heroContent p {
+  font-size: 17px;
+  color: #888;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.heroMockup {
+  background: #0f0f0f;
+  border: 0.5px solid #1e1e1e;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Stats Bar */
+.statsBar {
+  border-top: 0.5px solid #141414;
+  border-bottom: 0.5px solid #141414;
+}
+
+.statsContent {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 600;
+  color: #e0b84a;
+  font-family: monospace;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #444;
+  margin-top: 6px;
+}
+
+/* Why MarqBridge Section */
+.whySection {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 100px 24px;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #444;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.sectionHeading {
+  font-size: 38px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 64px;
+  text-align: center;
+}
+
+.problemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.problemItem {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+
+.problemItemEven {
+  grid-template-columns: 1fr 340px;
+}
+
+.problemItemOdd {
+  grid-template-columns: 340px 1fr;
+}
+
+/* Features Section */
+.featuresSection {
+  background: #080808;
+  border-top: 0.5px solid #141414;
+  border-bottom: 0.5px solid #141414;
+}
+
+.featuresSectionContent {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.featureCard {
+  background: #0f0f0f;
+  border: 0.5px solid #1a1a1a;
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: border-color 0.15s;
+}
+
+.featureCard:hover {
+  border-color: #2a2a2a;
+}
+
+/* Pricing Section */
+.pricingSection {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 100px 24px;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.tierCard {
+  background: #0f0f0f;
+  border: 0.5px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 28px 24px;
+  position: relative;
+}
+
+.tierCard.accent {
+  border: 1px solid rgba(224, 184, 74, 0.3);
+}
+
+/* FAQ Section */
+.faqSection {
+  background: #080808;
+  border-top: 0.5px solid #141414;
+}
+
+.faqContent {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.faqItem {
+  border: 0.5px solid #141414;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.faqButton {
+  width: 100%;
+  padding: 16px 18px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s;
+}
+
+.faqButton.open {
+  background: #0f0f0f;
+}
+
+/* Footer */
+.footer {
+  border-top: 0.5px solid #141414;
+  padding: 32px 24px;
+}
+
+.footerContent {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .problemItemEven,
+  .problemItemOdd {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pricingGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Mobile & tablet — append only, never modify above ─── */
+
+/* Hamburger button — hidden on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+/* Mobile nav drawer */
+.mobileDrawer {
+  display: none;
+}
+
+/* Mobile hero live ticker */
+.mobileTicker {
+  display: none;
+}
+
+/* ── Tablet: 769px – 1024px ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero {
+    gap: 32px;
+    padding: 72px 32px 60px;
+  }
+  .heroContent h1 {
+    font-size: 40px;
+  }
+  .pricingGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .statsContent {
+    gap: 16px;
+  }
+}
+
+/* ── Mobile: ≤ 768px ── */
+@media (max-width: 768px) {
+
+  /* Nav */
+  .navContent {
+    padding: 0 16px;
+    height: 54px;
+    gap: 0;
+    justify-content: space-between;
+  }
+  .navLinks {
+    display: none;
+  }
+  .navActions {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mobileDrawer {
+    display: block;
+    position: sticky;
+    top: 54px;
+    z-index: 48;
+    background: rgba(10,10,10,0.98);
+    border-bottom: 0.5px solid #1a1a1a;
+    padding: 4px 0 8px;
+  }
+  .mobileDrawerLink {
+    display: block;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #888;
+    text-decoration: none;
+    border-bottom: 0.5px solid #141414;
+  }
+  .mobileDrawerActions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px 4px;
+  }
+  .mobileDrawerBtn {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .mobileDrawerBtnSecondary {
+    border: 0.5px solid #2a2a2a;
+    background: none;
+    color: #666;
+  }
+  .mobileDrawerBtnPrimary {
+    border: 0.5px solid rgba(224,184,74,0.4);
+    background: rgba(224,184,74,0.1);
+    color: #e0b84a;
+  }
+
+  /* Hero */
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 44px 16px 36px;
+  }
+  .heroContent h1 {
+    font-size: 36px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .heroContent p {
+    font-size: 15px;
+  }
+  .heroMockup {
+    display: none;
+  }
+  .mobileTicker {
+    display: block;
+    background: #0f0f0f;
+    border: 0.5px solid #1e1e1e;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 20px;
+  }
+  .mobileTickerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mobileTickerLabel {
+    font-size: 11px;
+    color: #444;
+    font-family: monospace;
+  }
+  .mobileTickerBadge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: monospace;
+    transition: all 0.3s;
+  }
+  .heroCtas {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .heroCtas button,
+  .heroCtas a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 14px 20px !important;
+    min-height: 48px;
+  }
+
+  /* Stats bar */
+  .statsContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 8px;
+    padding: 20px 16px;
+    justify-items: center;
+  }
+  .statValue {
+    font-size: 22px;
+  }
+
+  /* Why section */
+  .whySection {
+    padding: 56px 16px 48px;
+  }
+  .sectionHeading {
+    font-size: 26px;
+    margin-bottom: 36px;
+  }
+  .problemsList {
+    gap: 32px;
+  }
+  .problemItemEven,
+  .problemItemOdd {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+  .problemMockup {
+    display: none !important;
+  }
+
+  /* Features */
+  .featuresSectionContent {
+    padding: 48px 16px;
+  }
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Pricing */
+  .pricingSection {
+    padding: 56px 16px;
+  }
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .tierCard {
+    padding: 22px 18px;
+  }
+
+  /* FAQ */
+  .faqContent {
+    padding: 48px 16px;
+  }
+  .faqButton {
+    padding: 14px 14px;
+    min-height: 52px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 24px 16px;
+  }
+  .footerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .footerMarkets {
+    display: none;
+  }
+}
+
+/* ── Small mobile: ≤ 380px ── */
+@media (max-width: 380px) {
+  .heroContent h1 {
+    font-size: 30px;
+  }
+  .statsContent {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Landscape mobile: height ≤ 500px ── */
+@media (max-height: 500px) and (max-width: 768px) {
+  .hero {
+    padding: 24px 16px;
+  }
+  .heroContent h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "MarqBridge — Risk-first trading OS",
+  "short_name": "MarqBridge",
+  "description": "Professional risk management for traders",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png?v=2.2",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png?v=2.2",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Risk state",
+      "url": "/?tab=STATE",
+      "description": "View current risk state"
+    },
+    {
+      "name": "Decisions",
+      "url": "/?tab=DECISIONS",
+      "description": "Tactical simulator"
+    }
+  ]
+}

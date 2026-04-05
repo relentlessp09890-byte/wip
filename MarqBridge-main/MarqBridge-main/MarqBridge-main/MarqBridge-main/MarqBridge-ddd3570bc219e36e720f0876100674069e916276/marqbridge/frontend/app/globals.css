@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg: #0a0a0a;
+  --color-surface: #0f0f0f;
+  --color-elevated: #141414;
+  --color-border: #1e1e1e;
+  --color-border-muted: #161616;
+  --color-text-primary: #e8e8e8;
+  --color-text-secondary: #888;
+  --color-text-muted: #444;
+  --color-gold: #e0b84a;
+  --color-safe: #4ade80;
+  --color-warning: #e0b84a;
+  --color-danger: #f87171;
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #333; }
+
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+.label-caps {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.risk-safe    { color: var(--color-safe); }
+.risk-warning { color: var(--color-warning); }
+.risk-danger  { color: var(--color-danger); }
+
+@keyframes flash-up   { 0% { background: #16a34a33; } 100% { background: transparent; } }
+@keyframes flash-down { 0% { background: #dc262633; } 100% { background: transparent; } }
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.4 } }
+.flash-up   { animation: flash-up 0.6s ease-out; }
+.flash-down { animation: flash-down 0.6s ease-out; }
+
+@keyframes shimmer {
+  0%   { opacity: 0.4 }
+  50%  { opacity: 0.8 }
+  100% { opacity: 0.4 }
+}
+
+.skeleton-shimmer {
+  background: #1e1e1e;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* Isolate Next.js dev overlay from app styles */
+nextjs-portal { all: unset; }
+#__next-build-watcher { all: unset !important; }
+
+/* Hide Next.js dev build indicator */
+[data-nextjs-dialog-overlay],
+nextjs-portal,
+#__next-build-watcher,
+[data-nextjs-toast] {
+  display: none !important;
+}
