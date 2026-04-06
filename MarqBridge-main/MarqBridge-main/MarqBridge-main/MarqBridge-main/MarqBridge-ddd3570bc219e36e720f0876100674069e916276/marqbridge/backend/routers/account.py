@@ -8,6 +8,8 @@ from services.demo_data import DEMO_JOURNAL
 from models.db_models import JournalEntryDB
 from database import AsyncSessionLocal
 from sqlalchemy import select
+from core.limiter import limiter
+from fastapi import Request
 
 router = APIRouter()
 
@@ -16,7 +18,8 @@ async def get_account_state():
     return await broker.get_account_state()
 
 @router.post("/connect")
-async def connect_broker(req: BrokerConnectRequest):
+@limiter.limit("5/minute")
+async def connect_broker(request: Request, req: BrokerConnectRequest):
     try:
         payload = await session_manager.switch_to_real(
             req.exchange, req.api_key, req.api_secret
@@ -60,3 +63,8 @@ async def connect_demo():
             await db.commit()
 
     return {"connected": True, "exchange": "demo", "demo": True}
+
+@router.get("/ws-token")
+async def get_ws_token():
+    from main import WS_TOKEN
+    return {"token": WS_TOKEN}

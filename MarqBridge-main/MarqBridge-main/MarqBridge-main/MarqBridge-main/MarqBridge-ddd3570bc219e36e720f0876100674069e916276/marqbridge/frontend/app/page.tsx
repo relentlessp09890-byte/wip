@@ -12,6 +12,7 @@ import IntegrationsPanel from '@/components/panels/IntegrationsPanel'
 import FirstRun from '@/components/onboarding/FirstRun'
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary'
 import { getFlag, setFlag } from '@/lib/flags'
+import { validateTierServer } from '@/lib/tierGate'
 import dynamic from 'next/dynamic'
 
 const PANEL_MAP: Record<string, React.ReactNode> = {
@@ -34,6 +35,9 @@ export default function Home() {
     const v = getFlag('marq_onboarded')
     setOnboarded(v === '1')
     setReady(true)
+    validateTierServer().then(tier => {
+      localStorage.setItem('marq_tier', tier)
+    })
   }, [])
 
   if (!ready) return (

@@ -13,14 +13,24 @@ import asyncio
 import json
 import os
 import time as _time
+import secrets
 
 check_environment()
+
+WS_TOKEN = os.getenv('WS_SECRET_TOKEN', secrets.token_hex(16))
+
+from core.limiter import limiter
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 app = FastAPI(
     title="MarqBridge API",
     description="Risk-first trading OS backend",
     version="2.0.0"
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,6 +39,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
 
 app.include_router(account.router, prefix="/api/account", tags=["account"])
 app.include_router(positions.router, prefix="/api/positions", tags=["positions"])
@@ -64,6 +82,10 @@ _start_time = _time.time()
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    token = websocket.query_params.get('token')
+    if token != WS_TOKEN:
+        await websocket.close(code=4001)
+        return
     await manager.connect(websocket)
     try:
         while True:
@@ -82,14 +104,15 @@ async def feed_loop():
     global _last_payload_hash
     while True:
         try:
-            if broker.connected:
+            # Only fetch if clients are actually connected
+            if broker.connected and len(manager.active) > 0:
                 account_state = await broker.get_account_state()
                 positions = await broker.get_positions()
 
-                # Only broadcast if state changed
-                key_data = f"{account_state.equity:.2f}_{account_state.margin_level:.2f}_{len(positions)}"
-                if key_data != _last_payload_hash:
-                    _last_payload_hash = key_data
+                # Only broadcast if state materially changed
+                key = f"{account_state.equity:.0f}_{account_state.margin_level:.1f}_{len(positions)}"
+                if not hasattr(feed_loop, '_last_key') or feed_loop._last_key != key:
+                    feed_loop._last_key = key
                     risk_score = risk_engine.score(account_state, positions)
                     cb_state = circuit_breaker.state()
                     market_type = get_exchange_market_type(broker.exchange_id or "binance")
@@ -142,7 +165,7 @@ async def system_status():
 @app.get("/health")
 async def health():
     return {
-        "status": "online",
+        "status": "healthy",
         "service": "MarqBridge",
         "broker_connected": broker.connected,
         "broker_exchange": broker.exchange_id,

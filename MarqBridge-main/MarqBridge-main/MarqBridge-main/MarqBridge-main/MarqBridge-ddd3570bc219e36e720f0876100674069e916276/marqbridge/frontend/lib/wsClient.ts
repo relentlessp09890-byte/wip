@@ -11,6 +11,17 @@ let prevCbLocked = false
 const MAX_RECONNECT = 5
 let pollInterval: ReturnType<typeof setInterval> | null = null
 
+async function getWsToken(): Promise<string> {
+  try {
+    const res = await fetch('/api/proxy/api/account/ws-token')
+    if (res.ok) {
+      const data = await res.json()
+      return data.token || ''
+    }
+  } catch {}
+  return ''
+}
+
 function getWsUrl(): string {
   if (typeof window === 'undefined') return 'ws://localhost:8000/ws'
 
@@ -32,12 +43,13 @@ function getWsUrl(): string {
   return 'ws://localhost:8000/ws'
 }
 
-export function connectWS() {
+export async function connectWS() {
   if (typeof window === 'undefined') return
   if (ws && ws.readyState === WebSocket.OPEN) return
+  const token = await getWsToken()
   const wsUrl = getWsUrl()
 
-  ws = new WebSocket(`${wsUrl}/ws`)
+  ws = new WebSocket(`${wsUrl}?token=${token}`)
 
   ws.onopen = () => {
     reconnectAttempts = 0

@@ -31,7 +31,13 @@ class BrokerConnector:
             return True
         except Exception as e:
             self.connected = False
-            raise RuntimeError(f"Broker connection failed: {str(e)}")
+            # Scrub key from error message before raising
+            err_msg = str(e)
+            if api_key and len(api_key) > 6:
+                err_msg = err_msg.replace(api_key, api_key[:4] + '****')
+            if api_secret and len(api_secret) > 6:
+                err_msg = err_msg.replace(api_secret, '****')
+            raise RuntimeError(f"Broker connection failed: {err_msg}")
 
     async def connect_demo(self):
         """Activate demo mode with simulated live data."""

@@ -1,5 +1,18 @@
 export type Tier = 'free' | 'pro' | 'prop'
 
+export async function validateTierServer(): Promise<Tier> {
+  try {
+    const res = await fetch('/api/proxy/api/billing/status')
+    if (!res.ok) return 'free'
+    const data = await res.json()
+    if (data.tier) {
+      localStorage.setItem('marq_tier', data.tier)
+      return data.tier
+    }
+  } catch {}
+  return (localStorage.getItem('marq_tier') as Tier) || 'free'
+}
+
 export function getCurrentTier(): Tier {
   try {
     return (localStorage.getItem('marq_tier') as Tier) ?? 'free'
