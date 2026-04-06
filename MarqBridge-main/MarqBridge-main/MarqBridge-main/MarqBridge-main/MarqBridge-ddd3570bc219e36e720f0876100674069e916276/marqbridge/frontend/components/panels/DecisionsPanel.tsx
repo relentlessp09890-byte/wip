@@ -391,6 +391,24 @@ export default function DecisionsPanel() {
                     <p className="text-xs text-risk-danger leading-relaxed">
                       {result.gate_reason}
                     </p>
+                    <div className="mt-2 space-y-1">
+                      <div className="flex justify-between text-2xs">
+                        <span className="text-gray-700">Your margin after this trade</span>
+                        <span className="font-mono text-risk-danger">
+                          {result.projected_margin_level.toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-2xs">
+                        <span className="text-gray-700">Minimum safe margin</span>
+                        <span className="font-mono text-gray-600">150%</span>
+                      </div>
+                      <div className="flex justify-between text-2xs">
+                        <span className="text-gray-700">This trade uses</span>
+                        <span className="font-mono text-risk-danger">
+                          {result.margin_impact_pct.toFixed(1)}% of equity
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

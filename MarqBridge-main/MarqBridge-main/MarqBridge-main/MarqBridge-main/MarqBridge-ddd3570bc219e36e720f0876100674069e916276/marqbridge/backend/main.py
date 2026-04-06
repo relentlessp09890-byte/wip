@@ -99,9 +99,10 @@ async def on_startup():
     asyncio.create_task(feed_loop())
 
 _last_payload_hash = None
+_seq = 0
 
 async def feed_loop():
-    global _last_payload_hash
+    global _last_payload_hash, _seq
     while True:
         try:
             # Only fetch if clients are actually connected
@@ -127,6 +128,7 @@ async def feed_loop():
                         for p in positions
                     }
 
+                    _seq += 1
                     await manager.broadcast({
                         "type": "STATE_UPDATE",
                         "account": account_state.dict(),
@@ -137,6 +139,7 @@ async def feed_loop():
                         "market_type": market_type.value,
                         "session_open": session_open,
                         "demo": broker.demo_mode,
+                        "seq": _seq,
                         "ts": int(_time.time() * 1000),
                     })
         except Exception as e:

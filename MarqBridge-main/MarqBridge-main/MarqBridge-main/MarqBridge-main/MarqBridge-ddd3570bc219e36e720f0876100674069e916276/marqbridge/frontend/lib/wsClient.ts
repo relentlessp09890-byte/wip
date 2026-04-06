@@ -10,6 +10,7 @@ let reconnectAttempts = 0
 let prevCbLocked = false
 const MAX_RECONNECT = 5
 let pollInterval: ReturnType<typeof setInterval> | null = null
+let _lastSeq = 0
 
 async function getWsToken(): Promise<string> {
   try {
@@ -179,6 +180,8 @@ export async function connectWS() {
       }
 
       if (msg.type === 'STATE_UPDATE') {
+        if (msg.seq && msg.seq <= _lastSeq) return
+        if (msg.seq) _lastSeq = msg.seq
         if (msg.account) {
           store.setAccount({
             equity: Number(msg.account.equity ?? 0),

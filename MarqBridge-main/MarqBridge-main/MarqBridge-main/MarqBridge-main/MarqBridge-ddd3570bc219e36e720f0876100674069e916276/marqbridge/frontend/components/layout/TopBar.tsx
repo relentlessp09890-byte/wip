@@ -14,6 +14,7 @@ export default function TopBar() {
   const [cbLocked, setCbLocked] = useState(false)
   const [stale, setStale] = useState(false)
   const [installPrompt, setInstallPrompt] = useState<any>(null)
+  const [dataAge, setDataAge] = useState(0)
   const apiBase = getApiBase()
 
   const TABS = hasProp()
@@ -46,6 +47,14 @@ export default function TopBar() {
       setStale(typeof lastUpdate === 'number' && Date.now() - lastUpdate > 10000)
     }, 2000)
     return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      const last = useMarqStore.getState().account?.lastUpdated
+      if (last) setDataAge(Math.floor((Date.now() - last) / 1000))
+    }, 1000)
+    return () => clearInterval(t)
   }, [])
 
   useEffect(() => {
@@ -172,6 +181,12 @@ export default function TopBar() {
         {stale && connected && (
           <span className="text-2xs text-risk-warning">data stale</span>
         )}
+        <span style={{
+          fontSize: 10, fontFamily: 'monospace',
+          color: dataAge > 15 ? '#f87171' : dataAge > 5 ? '#e0b84a' : '#4ade80',
+        }}>
+          {dataAge > 0 ? `${dataAge}s` : 'live'}
+        </span>
         {cbLocked && (
           <div className="flex items-center gap-1.5 px-2 py-1 rounded border border-risk-danger/40 bg-risk-danger/10">
             <span className="w-1.5 h-1.5 rounded-full bg-risk-danger animate-pulse" />
