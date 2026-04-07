@@ -131,6 +131,105 @@ export default function BrokerOnboarding({
     }, 180)
 
     try {
+      if (selected.id === 'zerodha') {
+        const res = await fetch('/api/proxy/api/account/zerodha/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            api_key: apiKey.trim(),
+            api_secret: apiSecret.trim(),
+          }),
+        })
+
+        clearInterval(timer)
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          setProgress(0)
+          setError(err.detail || 'Connection failed. Check your Kite credentials.')
+          setStep('credentials')
+          return
+        }
+
+        const data = await res.json()
+        if (!data.login_url) {
+          setProgress(0)
+          setError('Unable to generate Zerodha login URL.')
+          setStep('credentials')
+          return
+        }
+
+        const popup = window.open(data.login_url, '_blank', 'width=700,height=900')
+        if (!popup) {
+          setProgress(0)
+          setError('Unable to open Zerodha login window. Allow pop-ups and try again.')
+          setStep('credentials')
+          return
+        }
+
+        setProgress(30)
+
+        // Set up timeout for login completion
+        const loginTimeout = setTimeout(() => {
+          popup.close()
+          setProgress(0)
+          setError('Login timed out. Please try again and complete the Kite login within 5 minutes.')
+          setStep('credentials')
+        }, 5 * 60 * 1000) // 5 minutes
+
+        // Listen for popup close (user cancelled)
+        const checkClosed = setInterval(() => {
+          if (popup.closed) {
+            clearTimeout(loginTimeout)
+            clearInterval(checkClosed)
+            setProgress(0)
+            setError('Login window was closed. Please try again.')
+            setStep('credentials')
+          }
+        }, 1000)
+
+        window.addEventListener('message', async event => {
+          if (event.data?.type !== 'zerodha-auth') return
+
+          clearTimeout(loginTimeout)
+          clearInterval(checkClosed)
+
+          if (!event.data.success) {
+            setProgress(0)
+            setError('Zerodha login failed. Please check your credentials and try again.')
+            setStep('credentials')
+            return
+          }
+
+          try {
+            setProgress(60)
+            // Give backend a moment to process the callback
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            const { syncStoreNow } = await import('@/lib/storeSync')
+            await syncStoreNow(false, selected.name)
+            setProgress(100)
+
+            setBroker({
+              exchange: selected.id as any,
+              apiKey: apiKey.slice(0, 6) + '••••••••••',
+              apiSecret: '••••••••••••••••',
+              connected: true,
+              lastSync: Date.now(),
+            })
+            setConnected(true)
+            setApiKey('')
+            setApiSecret('')
+            setStep('success')
+          } catch (error: any) {
+            setProgress(0)
+            setError(error.message || 'Zerodha connected, but failed to refresh account data.')
+            setStep('credentials')
+          }
+        }, { once: true })
+
+        return
+      }
+
       const res = await fetch('/api/proxy/api/account/connect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

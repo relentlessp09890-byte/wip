@@ -62,7 +62,7 @@ export interface NewsItem {
 }
 
 export interface BrokerConfig {
-  exchange: 'binance' | 'bybit' | 'okx' | 'demo'
+  exchange: 'binance' | 'bybit' | 'okx' | 'zerodha' | 'demo'
   apiKey: string
   apiSecret: string
   connected: boolean

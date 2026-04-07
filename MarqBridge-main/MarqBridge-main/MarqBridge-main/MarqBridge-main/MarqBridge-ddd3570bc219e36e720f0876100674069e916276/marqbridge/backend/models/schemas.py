@@ -57,3 +57,7 @@ class BrokerConnectRequest(BaseModel):
     exchange: str
     api_key: str
     api_secret: str
+
+class ZerodhaLoginRequest(BaseModel):
+    api_key: str
+    api_secret: str

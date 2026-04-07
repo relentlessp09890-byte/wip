@@ -38,3 +38,12 @@ class AccountSnapshotDB(Base):
     liquidation_proximity = Column(Float,   nullable=False)
     risk_level            = Column(String,  nullable=False)
     snapshot_at           = Column(BigInteger, nullable=False)
+
+
+class ZerodhaSessionDB(Base):
+    __tablename__ = "zerodha_sessions"
+    api_key      = Column(String, primary_key=True)
+    access_token = Column(String, nullable=False)
+    login_time   = Column(String, nullable=True)
+    created_at   = Column(BigInteger, nullable=False)
+    updated_at   = Column(BigInteger, nullable=False)

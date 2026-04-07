@@ -4,15 +4,15 @@ export async function syncStoreNow(isDemo: boolean, exchangeName: string) {
   const store = useMarqStore.getState()
 
   try {
-    const [accRes, posRes] = await Promise.all([
+    const [accRes, posRes] = await Promise.allSettled([
       fetch('/api/proxy/api/account/state'),
       fetch('/api/proxy/api/positions/'),
     ])
 
     let accountLoaded = false
 
-    if (accRes.ok) {
-      const acc = await accRes.json()
+    if (accRes.status === 'fulfilled' && accRes.value.ok) {
+      const acc = await accRes.value.json()
       if (acc && !acc.error && acc.equity !== undefined) {
         store.setAccount({
           equity:               Number(acc.equity)               || 0,
@@ -29,8 +29,8 @@ export async function syncStoreNow(isDemo: boolean, exchangeName: string) {
       }
     }
 
-    if (posRes.ok) {
-      const pos = await posRes.json()
+    if (posRes.status === 'fulfilled' && posRes.value.ok) {
+      const pos = await posRes.value.json()
       if (Array.isArray(pos)) {
         store.setPositions(pos.map((p: any) => ({
           id:               String(p.id   || ''),
